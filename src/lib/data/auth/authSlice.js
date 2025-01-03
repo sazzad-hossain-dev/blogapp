@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Load user data from localStorage (if available)
+const userFromStorage = JSON.parse(localStorage.getItem("user")) || null;
+
 // Initial state
 const initialState = {
-    user: null, // This will hold the user object once logged in
-    isAuthenticated: false, // To track whether the user is logged in or not
+    user: userFromStorage, // Initialize from localStorage
+    isAuthenticated: !!userFromStorage, // True if user exists in localStorage
 };
 
 // Create the auth slice
@@ -12,12 +15,18 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            state.user = action.payload; // Set the user data (e.g., from Firebase)
-            state.isAuthenticated = true; // Set isAuthenticated to true
+            state.user = action.payload; // Update user data
+            state.isAuthenticated = true; // Set authenticated to true
+
+            // Save to localStorage
+            localStorage.setItem("user", JSON.stringify(action.payload));
         },
         logout: (state) => {
-            state.user = null; // Reset user state
-            state.isAuthenticated = false; // Set isAuthenticated to false
+            state.user = null; // Clear user data
+            state.isAuthenticated = false; // Reset authentication status
+
+            // Remove from localStorage
+            localStorage.removeItem("user");
         },
     },
 });
@@ -25,5 +34,5 @@ export const authSlice = createSlice({
 // Export actions
 export const { setUser, logout } = authSlice.actions;
 
-// Export the reducer
+// Export reducer
 export default authSlice.reducer;

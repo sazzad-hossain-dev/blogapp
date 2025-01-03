@@ -1,15 +1,24 @@
 "use client";
 import { auth } from "@/configs/firebase";
 import { setUser } from "@/lib/data/auth/authSlice";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useAppDispatch();
+    const user = useAppSelector((state) => state.auth.user);
+    const router = useRouter();
+    useEffect(() => {
+        if (user) {
+            router.push("/");
+        }
+    }, [user, router]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -25,6 +34,7 @@ const Login = () => {
                     email: user.email,
                     displayName: user.displayName,
                     accessToken: user.accessToken,
+                    userProfile: user.profileImage,
                 })
             );
             console.log(user);

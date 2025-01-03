@@ -6,7 +6,11 @@ module.exports = {
         "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                poppins: ["Poppins", "sans-serif"], // Add Poppins font
+            },
+        },
     },
     plugins: [require("@tailwindcss/forms"), require("daisyui")],
 };
