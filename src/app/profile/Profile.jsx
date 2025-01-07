@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const Profile = () => {
     const currentUser = useAppSelector((state) => state.auth.user);
-    const useruid = currentUser.uid;
+    const useruid = currentUser.userId;
 
     // State for user data
     const [userData, setUserData] = useState(null);

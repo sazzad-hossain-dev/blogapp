@@ -161,6 +161,9 @@ const Signup = () => {
                 location,
                 study,
                 createdAt: serverTimestamp(),
+                id: user.uid,
+                following: [],
+                followers: [],
             });
 
             dispatch(
