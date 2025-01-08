@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en" className="h-full w-full">
-            <body className="overflow-x-hidden m-0 w-full h-full">
+            <body className="overflow-hidden m-0 w-full h-full">
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}
@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
                 />
                 <StoreProvider>
                     <Header />
-                    <main className="overflow-x-hidden w-full h-full px-4 sm:px-6 md:px-8">
+                    <main className="w-full h-full px-4 sm:px-6 md:px-8 overflow-y-auto">
                         {children}
                     </main>
                 </StoreProvider>

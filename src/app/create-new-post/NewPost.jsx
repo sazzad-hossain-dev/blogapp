@@ -1,21 +1,29 @@
 "use client";
-
 import { Auth } from "@/components/global/auth/Auth";
 import { db } from "@/configs/firebase";
 import { uploadImageToImageKit } from "@/configs/imagekit";
 import { useAppSelector } from "@/lib/hooks";
-import { nanoid } from "@reduxjs/toolkit";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    doc,
+    serverTimestamp,
+    updateDoc,
+} from "firebase/firestore";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const NewPost = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
     const user = useAppSelector((state) => state.auth.user);
-    const userId = user.uid;
-    const userName = user.displayName;
+    const userId = user.userId;
+    const userName = user.username;
+
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -40,40 +48,41 @@ const NewPost = () => {
 
             setIsLoading(true);
 
-            const id = nanoid();
-
+            const postRef = await addDoc(collection(db, "posts"), {
+                title,
+                description,
+                userId,
+                createdAt: serverTimestamp(),
+                userName,
+            });
+            const postId = postRef.id;
             let imageUrl = "";
             if (image) {
                 try {
                     imageUrl = await uploadImageToImageKit(
                         image,
-                        `posts/${id}`
+                        `posts/${postId}`
                     );
                 } catch (uploadError) {
                     console.error("Image upload failed:", uploadError);
-                    alert("Failed to upload image. Please try again.");
+                    toast.error("Failed to upload image. Please try again.");
                     setIsLoading(false);
                     return;
                 }
             }
-
-            await addDoc(collection(db, "posts"), {
-                id,
-                title,
-                description,
+            await updateDoc(doc(db, "posts", postId), {
+                id: postId,
                 image: imageUrl,
-                userId,
-                createdAt: serverTimestamp(),
-                userName,
             });
 
-            console.log("Post created successfully!");
+            toast.success("Post created successfully!");
             setTitle("");
             setDescription("");
             setImage(null);
+            router.push("/");
         } catch (error) {
             console.error("Failed to create post:", error);
-            alert("Failed to create post. Please try again.");
+            toast.error("Failed to create post. Please try again.");
         } finally {
             setIsLoading(false);
         }

@@ -3,9 +3,9 @@ import { logout } from "@/lib/data/auth/authSlice";
 import { useAppSelector } from "@/lib/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { CgExtension } from "react-icons/cg";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 
 const Header = () => {
     const user = useAppSelector((state) => state.auth.user);
@@ -46,10 +46,18 @@ const Header = () => {
                             </li>
                             <li>
                                 <Link
-                                    href={"/profile"}
+                                    href={"/discover-people"}
                                     className="hover:bg-violet-600 hover:text-white px-4 py-2 rounded-md transition duration-300 ease-in-out"
                                 >
-                                    Profile
+                                    Discover People
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href={"/my-profile"}
+                                    className="hover:bg-violet-600 hover:text-white px-4 py-2 rounded-md transition duration-300 ease-in-out"
+                                >
+                                    My Profile
                                 </Link>
                             </li>
                         </ul>
@@ -96,8 +104,13 @@ const Header = () => {
                                             <Link href={"/"}>Home</Link>
                                         </li>
                                         <li>
-                                            <Link href={"/profile"}>
-                                                Profile
+                                            <Link href={"/discover-people"}>
+                                                Discover People
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href={"/my-profile"}>
+                                                My Profile
                                             </Link>
                                         </li>
                                         <li>

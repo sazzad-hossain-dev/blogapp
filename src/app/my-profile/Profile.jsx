@@ -1,6 +1,6 @@
 "use client";
 import { Auth } from "@/components/global/auth/Auth";
-import LoadingSpinner from "@/components/global/loading/LoadingSpin"; // Import LoadingSpinner
+import LoadingSpinner from "@/components/global/loading/LoadingSpin";
 import { db } from "@/configs/firebase";
 import { useAppSelector } from "@/lib/hooks";
 import { formatDistanceToNow } from "date-fns";
@@ -10,15 +10,14 @@ import { useEffect, useState } from "react";
 
 const Profile = () => {
     const currentUser = useAppSelector((state) => state.auth.user);
-    const useruid = currentUser.userId;
+    const userId = currentUser.userId;
 
-    // State for user data
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const docRef = doc(db, "users", useruid);
+                const docRef = doc(db, "users", userId);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
@@ -32,23 +31,27 @@ const Profile = () => {
         };
 
         fetchUserData();
-    }, [useruid]);
+    }, [userId]);
 
-    // Loading state
     if (!userData) {
-        return <LoadingSpinner />; // Show loading spinner while fetching data
+        return <LoadingSpinner />;
     }
 
-    const { email, profileImage, username, createdAt } = userData;
+    const {
+        email,
+        profileImage,
+        username,
+        createdAt,
+        followers,
+        following,
+        location,
+        study,
+    } = userData;
     const formattedDate = createdAt?.seconds
         ? formatDistanceToNow(new Date(createdAt.seconds * 1000), {
               addSuffix: true,
           })
         : "Date not available";
-
-    const handleUpdateProfile = () => {
-        console.log("Update profile clicked!");
-    };
 
     return (
         <div className="max-w-5xl mx-auto p-6 sm:p-8">
@@ -69,7 +72,20 @@ const Profile = () => {
                     <p className="text-sm text-gray-400">
                         Joined {formattedDate}
                     </p>
-                    {/* Update Profile Button (Moved to the top) */}
+                    <div className="text-sm flex gap-2 text-gray-400 mt-2">
+                        <Link href={"/followers"}>
+                            <span className="font-semibold text-indigo-400">
+                                {followers?.length || 0}
+                            </span>
+                            Followers
+                        </Link>
+                        <Link href={"/following"}>
+                            <span className="font-semibold text-indigo-400">
+                                {following?.length || 0}
+                            </span>
+                            Following
+                        </Link>
+                    </div>
                     <div className="mt-4 sm:mt-6">
                         <Link
                             href={"/update-profile"}
@@ -81,46 +97,30 @@ const Profile = () => {
                 </div>
             </div>
 
-            {/* Profile Information Cards */}
-            <div className="space-y-8 mt-8">
-                {/* About Section */}
-                <div className="bg-gray-800 p-6 rounded-2xl shadow-xl text-gray-200">
-                    <h2 className="text-2xl font-semibold text-indigo-400">
-                        About Me
-                    </h2>
-                    <p className="text-sm text-gray-400 mt-4">
-                        This section can contain a brief description or bio
-                        about the user. For example, hobbies, interests, or a
-                        personal quote.
-                    </p>
-                </div>
-
-                {/* Social Links Section */}
-                <div className="bg-gray-800 p-6 rounded-2xl shadow-xl text-gray-200">
-                    <h2 className="text-2xl font-semibold text-indigo-400">
-                        Social Links
-                    </h2>
-                    <ul className="mt-4 text-sm text-gray-400">
-                        <li>
-                            Twitter:{" "}
-                            <a
-                                href="#"
-                                className="text-violet-400 hover:text-violet-500 transition"
-                            >
-                                @username
-                            </a>
-                        </li>
-                        <li>
-                            GitHub:{" "}
-                            <a
-                                href="#"
-                                className="text-violet-400 hover:text-violet-500 transition"
-                            >
-                                @username
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div className="bg-gray-800 p-6 rounded-2xl shadow-xl flex flex-col justify-center items-center text-gray-200 mt-8">
+                <h2 className="text-2xl font-semibold text-indigo-400">
+                    Profile Details
+                </h2>
+                <ul className="mt-4 text-sm text-gray-400 space-y-2">
+                    <li>
+                        <span className="font-semibold text-gray-200">
+                            Location:
+                        </span>
+                        {location || "Not provided"}
+                    </li>
+                    <li>
+                        <span className="font-semibold text-gray-200">
+                            Study:
+                        </span>
+                        {study || "Not provided"}
+                    </li>
+                    <li>
+                        <span className="font-semibold text-gray-200">
+                            Email:
+                        </span>
+                        {email}
+                    </li>
+                </ul>
             </div>
         </div>
     );

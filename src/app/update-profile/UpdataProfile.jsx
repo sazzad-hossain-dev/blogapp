@@ -6,17 +6,21 @@ import { uploadImageToImageKit } from "@/configs/imagekit";
 import { setUser } from "@/lib/data/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { doc, updateDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const UpdateProfile = () => {
     const user = useAppSelector((state) => state.auth.user);
-    const [username, setUsername] = useState(user?.displayName || "");
+    const [username, setUsername] = useState(user?.username || "");
     const [profileImage, setProfileImage] = useState(null);
-    const [bio, setBio] = useState(user?.bio || ""); // New state for bio
-    const [location, setLocation] = useState(user?.location || ""); // New state for location
-    const [study, setStudy] = useState(user?.study || ""); // New state for study
+    const [bio, setBio] = useState(user?.bio || "");
+    const [location, setLocation] = useState(user?.location || "");
+    const [study, setStudy] = useState(user?.study || "");
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useAppDispatch();
+    const router = useRouter();
+    const userId = user?.userId;
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -29,7 +33,6 @@ const UpdateProfile = () => {
                 alert("Image size should not exceed 5MB.");
                 return;
             }
-
             setProfileImage(file);
         }
     };
@@ -41,19 +44,20 @@ const UpdateProfile = () => {
             setIsLoading(true);
             const imageUrl = await uploadImageToImageKit(
                 profileImage,
-                `profiles/${user.uid}`
+                `profiles/${userId}`
             );
-            await updateDoc(doc(db, "users", user.uid), {
+            await updateDoc(doc(db, "users", userId), {
                 profileImage: imageUrl,
             });
             dispatch(setUser({ ...user, profileImage: imageUrl }));
-            alert("Profile image updated successfully!");
+            toast.success("Image update successfully ");
+            setProfileImage(null);
+            router.push("/my-profile");
         } catch (error) {
             console.error("Failed to update profile image:", error);
-            alert("Failed to update profile image. Please try again.");
+            toast.error("Failed to update profile image. Please try again.");
         } finally {
             setIsLoading(false);
-            setProfileImage(null);
         }
     };
 
@@ -62,13 +66,15 @@ const UpdateProfile = () => {
 
         try {
             setIsLoading(true);
-            await updateDoc(doc(db, "users", user.uid), {
+            await updateDoc(doc(db, "users", userId), {
                 displayName: username,
             });
-            alert("Username updated successfully!");
+            dispatch(setUser({ ...user, displayName: username }));
+            toast.success("Username updated successfully!");
+            router.push("/my-profile");
         } catch (error) {
             console.error("Failed to update username:", error);
-            alert("Failed to update username. Please try again.");
+            toast.error("Failed to update username. Please try again.");
         } finally {
             setIsLoading(false);
         }
@@ -77,15 +83,26 @@ const UpdateProfile = () => {
     const handleUpdateBioLocationStudy = async () => {
         try {
             setIsLoading(true);
-            await updateDoc(doc(db, "users", user.uid), {
-                bio: bio,
-                location: location,
-                study: study,
+            await updateDoc(doc(db, "users", userId), {
+                bio: bio || user?.bio,
+                location: location || user?.location,
+                study: study || user?.study,
             });
-            alert("Profile information updated successfully!");
+            dispatch(
+                setUser({
+                    ...user,
+                    bio: bio || user?.bio,
+                    location: location || user?.location,
+                    study: study || user?.study,
+                })
+            );
+            toast.success("Profile information updated successfully!");
+            router.push("/my-profile");
         } catch (error) {
             console.error("Failed to update bio, location, or study:", error);
-            alert("Failed to update profile information. Please try again.");
+            toast.error(
+                "Failed to update profile information. Please try again."
+            );
         } finally {
             setIsLoading(false);
         }
@@ -116,6 +133,13 @@ const UpdateProfile = () => {
                             ✖
                         </button>
                     </div>
+                )}
+                {!profileImage && user?.profileImage && (
+                    <img
+                        src={user.profileImage}
+                        alt="Current Profile"
+                        className="w-full h-48 object-cover rounded-lg shadow-md"
+                    />
                 )}
                 <label className="block w-full px-4 py-2 text-sm text-gray-400 border-2 border-dashed rounded-lg cursor-pointer hover:border-violet-500 hover:text-violet-500">
                     <input
