@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { AiOutlineUserAdd } from "react-icons/ai";
@@ -8,9 +9,11 @@ const PeopleCard = ({ user, onFollow, isFollowing }) => {
     return (
         <div className="flex items-center justify-between px-4 py-3 bg-gray-800 text-gray-200 rounded shadow-md max-w-md mx-auto">
             <div className="flex items-center space-x-3">
-                <img
+                <Image
+                    height={170}
+                    width={170}
                     alt={username}
-                    src={profileImage || "https://via.placeholder.com/50"}
+                    src={profileImage}
                     className="object-cover w-10 h-10 rounded-full shadow bg-gray-500"
                 />
                 <div>

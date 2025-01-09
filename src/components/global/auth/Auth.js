@@ -14,7 +14,11 @@ export function Auth(Component) {
         }, [user, router]);
 
         if (!user) {
-            return null; // Prevent rendering the component if user is not authenticated
+            return (
+                <div className="flex items-center justify-center h-screen">
+                    Redirecting...
+                </div>
+            );
         }
 
         return <Component {...props} />;

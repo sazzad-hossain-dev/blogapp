@@ -1,6 +1,7 @@
 "use client";
 import { Auth } from "@/components/global/auth/Auth";
 import CreatePostLink from "@/components/global/links/CreatePostLink";
+import DiscoverPeopleLink from "@/components/global/links/DiscoverPeopleLink";
 import LoadingSpinner from "@/components/global/loading/LoadingSpin";
 import Post from "@/components/global/post/Post";
 import { db } from "@/configs/firebase";
@@ -77,9 +78,7 @@ const Home = () => {
                         />
                     ))
                 ) : (
-                    <div className="text-center text-gray-200 mt-12">
-                        No posts available. Be the first to create one!
-                    </div>
+                    <DiscoverPeopleLink />
                 )}
             </div>
         </>

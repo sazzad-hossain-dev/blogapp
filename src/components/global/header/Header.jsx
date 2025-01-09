@@ -142,8 +142,10 @@ const Header = () => {
                     {user && (
                         <div className="avatar cursor-pointer">
                             <div className="w-12 h-12 rounded-full ring ring-white ring-offset-base-100 ring-offset-2">
-                                <img
-                                    src={user?.profileImage}
+                                <image
+                                    height={170}
+                                    width={170}
+                                    src={user.profileImage}
                                     alt="Profile"
                                     className="object-cover w-full h-full rounded-full"
                                 />

@@ -5,6 +5,7 @@ import { db } from "@/configs/firebase";
 import { useAppSelector } from "@/lib/hooks";
 import { formatDistanceToNow } from "date-fns";
 import { doc, getDoc } from "firebase/firestore";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -58,10 +59,12 @@ const Profile = () => {
             {/* Profile Header */}
             <div className="flex flex-col sm:flex-row justify-center items-center space-x-0 sm:space-x-6 bg-gray-800 p-6 sm:p-10 rounded-2xl shadow-xl">
                 <div className="relative w-32 h-32 sm:w-40 sm:h-40">
-                    <img
+                    <Image
                         src={profileImage}
                         alt={`${username}'s profile`}
                         className="w-full h-full object-cover shadow-md border-2 border-gray-600 rounded-md"
+                        width={160} // or use dynamic width
+                        height={160} // or use dynamic height
                     />
                 </div>
                 <div className="text-white text-center sm:text-left mt-4 sm:mt-0">

@@ -1,7 +1,9 @@
 "use client";
 
+import LoadingSpinner from "@/components/global/loading/LoadingSpin";
 import { db } from "@/configs/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -34,14 +36,7 @@ const UserProfile = () => {
         fetchUser();
     }, [id]);
 
-    if (isLoading)
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-900">
-                <p className="text-lg text-violet-400 animate-pulse">
-                    Loading profile...
-                </p>
-            </div>
-        );
+    if (isLoading) return <LoadingSpinner />;
 
     if (error)
         return (
@@ -51,17 +46,19 @@ const UserProfile = () => {
         );
 
     return (
-        <div className="min-h-screen bg-gray-900 text-gray-200">
+        <div className="min-h-screen bg-gray-900 mb-24 text-gray-200">
             <div className="max-w-4xl mx-auto py-12 px-6">
                 {/* Profile Header */}
                 <div className="bg-gray-800 p-6 rounded-lg shadow-lg flex items-center space-x-6">
-                    <img
+                    <Image
                         src={
                             user.profileImage ||
                             "https://via.placeholder.com/150"
                         }
-                        alt={user.username}
+                        alt={`${user.username}'s profile`}
                         className="w-24 h-24 rounded-full object-cover shadow-lg"
+                        width={96}
+                        height={96}
                     />
                     <div>
                         <h1 className="text-3xl font-bold text-violet-400">

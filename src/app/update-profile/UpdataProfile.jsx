@@ -121,7 +121,7 @@ const UpdateProfile = () => {
                 </h3>
                 {profileImage && (
                     <div className="relative">
-                        <img
+                        <image
                             src={URL.createObjectURL(profileImage)}
                             alt="Preview"
                             className="w-full h-48 object-cover rounded-lg shadow-md"
@@ -135,7 +135,7 @@ const UpdateProfile = () => {
                     </div>
                 )}
                 {!profileImage && user?.profileImage && (
-                    <img
+                    <image
                         src={user.profileImage}
                         alt="Current Profile"
                         className="w-full h-48 object-cover rounded-lg shadow-md"

@@ -5,6 +5,7 @@ import { setUser } from "@/lib/data/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import Image from "next/image"; // Import Image component from next/image
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons for eye toggle
@@ -320,10 +321,12 @@ const Signup = () => {
                         <div className="mb-4">
                             {image && (
                                 <div className="relative mb-4">
-                                    <img
+                                    <Image
                                         src={image}
                                         alt="Profile Preview"
-                                        className="w-20 h-20 object-cover rounded-full"
+                                        width={80}
+                                        height={80}
+                                        className="object-cover rounded-full"
                                     />
                                     <button
                                         onClick={() => setImage(null)}
@@ -372,10 +375,12 @@ const Signup = () => {
                             </div>
                             <div>
                                 <strong>Profile Image:</strong>
-                                <img
+                                <Image
                                     src={formData.profileImageUrl}
                                     alt="Profile Preview"
-                                    className="w-20 h-20 object-cover rounded-full mt-2"
+                                    width={80}
+                                    height={80}
+                                    className="object-cover rounded-full mt-2"
                                 />
                             </div>
                         </div>
@@ -387,7 +392,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-center mb-12 min-h-screen bg-gray-100 dark:bg-gray-900 py-8 sm:py-16 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-md p-6 space-y-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg h-full flex flex-col justify-between">
                 {/* Step Tracker */}
                 <ul className="steps mb-6 text-lg">

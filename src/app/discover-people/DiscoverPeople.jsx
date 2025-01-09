@@ -83,7 +83,7 @@ const DiscoverPeople = () => {
     if (error) return <p className="text-red-500">{error}</p>;
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="container mx-auto p-6 mb-24">
             <h1 className="text-2xl font-bold text-gray-200 mb-4 text-center">
                 Discover People
             </h1>

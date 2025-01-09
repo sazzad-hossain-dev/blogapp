@@ -1,3 +1,4 @@
+import AuthLoader from "@/components/global/Data loader/AuthLoader";
 import Header from "@/components/global/header/Header";
 import StoreProvider from "@/lib/storeProvider";
 import { ToastContainer } from "react-toastify";
@@ -25,10 +26,12 @@ export default function RootLayout({ children }) {
                     theme="light"
                 />
                 <StoreProvider>
-                    <Header />
-                    <main className="w-full h-full px-4 sm:px-6 md:px-8 overflow-y-auto">
-                        {children}
-                    </main>
+                    <AuthLoader>
+                        <Header />
+                        <main className="w-full h-full px-4 sm:px-6 md:px-8 overflow-y-auto">
+                            {children}
+                        </main>
+                    </AuthLoader>
                 </StoreProvider>
             </body>
         </html>

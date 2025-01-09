@@ -10,6 +10,7 @@ import {
     serverTimestamp,
     updateDoc,
 } from "firebase/firestore";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -110,10 +111,12 @@ const NewPost = () => {
                 <div>
                     {image && (
                         <div className="relative">
-                            <img
+                            <Image
                                 src={URL.createObjectURL(image)}
                                 alt="Preview"
                                 className="w-full h-60 object-cover rounded-md mb-2"
+                                width={500} // Adjust width/height as needed
+                                height={250}
                             />
                             <button
                                 onClick={() => setImage(null)}

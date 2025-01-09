@@ -77,7 +77,7 @@ const Followers = () => {
                     ))
                 ) : (
                     <p className="text-center text-gray-400">
-                        You don't have any followers yet.
+                        You don&apos;t have any followers yet.
                     </p>
                 )}
             </div>

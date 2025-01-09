@@ -7,6 +7,7 @@ import {
     getDoc,
     updateDoc,
 } from "firebase/firestore";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegCommentAlt } from "react-icons/fa";
@@ -102,7 +103,7 @@ const Post = ({ post, currentUser }) => {
         <div className="flex flex-col max-w-lg mx-auto py-6 px-2 my-3 space-y-6 rounded-lg shadow-lg bg-gray-800 text-gray-200">
             {error && <p className="text-sm text-red-500">{error}</p>}
             <div className="flex space-x-4">
-                <img
+                <Image
                     alt={profile?.name || userName}
                     src={
                         profile?.profileImage ||
@@ -110,6 +111,8 @@ const Post = ({ post, currentUser }) => {
                         "/default-avatar.png"
                     }
                     className="object-cover w-12 h-12 rounded-full shadow-lg bg-gray-500"
+                    width={48}
+                    height={48}
                 />
                 <div className="flex flex-col space-y-1">
                     <p className="text-sm font-semibold text-violet-400 hover:text-violet-500">
@@ -126,10 +129,12 @@ const Post = ({ post, currentUser }) => {
                 </div>
             </div>
             <div>
-                <img
+                <Image
                     src={image}
                     alt={title}
                     className="object-cover w-full mb-4 h-60 sm:h-96 bg-gray-700 rounded-lg"
+                    width={640}
+                    height={360}
                 />
                 <h2 className="mb-1 text-xl font-semibold text-gray-100">
                     {title}
