@@ -12,8 +12,11 @@ const PeopleCard = ({ user, onFollow, isFollowing }) => {
                 <Image
                     height={170}
                     width={170}
-                    alt={username}
-                    src={profileImage}
+                    alt={username || ""}
+                    src={
+                        profileImage ||
+                        "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    }
                     className="object-cover w-10 h-10 rounded-full shadow bg-gray-500"
                 />
                 <div>

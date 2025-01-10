@@ -1,6 +1,7 @@
 "use client";
 import { logout } from "@/lib/data/auth/authSlice";
 import { useAppSelector } from "@/lib/hooks";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -142,7 +143,7 @@ const Header = () => {
                     {user && (
                         <div className="avatar cursor-pointer">
                             <div className="w-12 h-12 rounded-full ring ring-white ring-offset-base-100 ring-offset-2">
-                                <image
+                                <Image
                                     height={170}
                                     width={170}
                                     src={user.profileImage}

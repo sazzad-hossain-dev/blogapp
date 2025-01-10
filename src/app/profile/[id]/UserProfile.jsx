@@ -1,40 +1,22 @@
 "use client";
 
 import LoadingSpinner from "@/components/global/loading/LoadingSpin";
-import { db } from "@/configs/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const UserProfile = () => {
-    const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+const UserProfile = ({ userData }) => {
+    const [user, setUser] = useState(userData);
+    const [isLoading, setIsLoading] = useState(!userData);
     const [error, setError] = useState(null);
     const router = useRouter();
-    const { id } = useParams();
 
     useEffect(() => {
-        if (!id) return;
-
-        const fetchUser = async () => {
-            try {
-                const userDoc = await getDoc(doc(db, "users", id));
-                if (userDoc.exists()) {
-                    setUser(userDoc.data());
-                } else {
-                    setError("User not found.");
-                }
-            } catch (err) {
-                console.error(err);
-                setError("Failed to fetch user data.");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, [id]);
+        if (userData) {
+            setUser(userData);
+            setIsLoading(false);
+        }
+    }, [userData]);
 
     if (isLoading) return <LoadingSpinner />;
 
@@ -53,7 +35,7 @@ const UserProfile = () => {
                     <Image
                         src={
                             user.profileImage ||
-                            "https://via.placeholder.com/150"
+                            "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                         }
                         alt={`${user.username}'s profile`}
                         className="w-24 h-24 rounded-full object-cover shadow-lg"

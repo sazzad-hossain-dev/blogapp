@@ -1,0 +1,15 @@
+[build]
+  base = "."
+  publish = "out"
+  command = "npm run build && npm run export"  # For static export
+  functions = "netlify/functions"  # Optional, for serverless functions
+
+[[redirects]]
+  from = "/_next/*"
+  to = "/.netlify/next/*"
+  status = 200
+
+[[redirects]]
+  from = "/static/*"
+  to = "/static/*"
+  status = 200

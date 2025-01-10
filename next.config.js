@@ -4,7 +4,11 @@ const nextConfig = {
         dirs: ["src"], // Or adjust to the appropriate directories for your project
     },
     images: {
-        domains: ["ik.imagekit.io", "storage.googleapis.com"], // Add ImageKit and Firebase domains
+        domains: [
+            "ik.imagekit.io",
+            "storage.googleapis.com",
+            "img.daisyui.com",
+        ], // Add ImageKit and Firebase domains
     },
 };
 
