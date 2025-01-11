@@ -1,14 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    reactStrictMode: true,
     eslint: {
-        dirs: ["src"], // Or adjust to the appropriate directories for your project
+        dirs: ["src"],
     },
     images: {
         domains: [
             "ik.imagekit.io",
             "storage.googleapis.com",
             "img.daisyui.com",
-        ], // Add ImageKit and Firebase domains
+        ],
     },
 };
 

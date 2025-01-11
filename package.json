@@ -16,7 +16,7 @@
     "imagekit": "^6.0.0",
     "imagekitio-next": "^1.0.1",
     "next": "^15.1.4",
-    "next-on-netlify": "^3.0.1",
+    "next-on-netlify": "^2.7.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
