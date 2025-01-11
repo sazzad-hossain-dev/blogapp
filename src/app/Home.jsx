@@ -14,6 +14,10 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(null);
     const stateUser = useAppSelector((state) => state.auth.user);
+    console.log(stateUser);
+    console.log(currentUser);
+    
+    
     useEffect(() => {
         const fetchCurrentUser = async () => {
             try {
@@ -32,8 +36,11 @@ const Home = () => {
 
         if (stateUser?.userId) {
             fetchCurrentUser();
+            console.log(stateUser);
+            
         }
     }, [stateUser?.userId]);
+
 
     useEffect(() => {
         if (!currentUser) return;
